@@ -68,7 +68,15 @@
     const v = hookVel(crane);
     // The spreader steadies the box as it lets go: it keeps only part of the hook's sideways
     // velocity, so a drop is a judgement about position more than a lottery about drift.
-    crane.falling = { x: p.x, y: p.y + 24, vx: v.x * 0.55, vy: Math.max(0, v.y), colorId: crane.held.colorId, serial: crane.held.serial };
+    // The falling box carries everything the landing needs to judge it: its colour, its class
+    // (steel or glass), whether the paint made it wild, and whether this release was a hard
+    // one for glass — judged now, from the swing the player is watching.
+    crane.falling = {
+      x: p.x, y: p.y + 24, vx: v.x * 0.55, vy: Math.max(0, v.y),
+      colorId: crane.held.colorId, serial: crane.held.serial,
+      cls: crane.held.cls || 'std', wild: !!crane.held.wild,
+      hard: globalThis.GT_Specials.hardDrop(crane.angle, v.x),
+    };
     crane.held = null;
     crane.cooldown = 0.55;
     return true;

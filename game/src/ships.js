@@ -33,6 +33,9 @@
     if (prev && next.rows > prev.rows) bits.push('TALLER: ' + next.rows + ' HIGH');
     if (next.gulls && !(prev && prev.gulls)) bits.push('NEW: GULL FLOCKS');
     if (next.waves && !(prev && prev.waves)) bits.push('NEW: THE SWELL');
+    if (next.heavy && !(prev && prev.heavy)) bits.push('NEW: HEAVY BOXES');
+    if (next.fragile && !(prev && prev.fragile)) bits.push('NEW: FRAGILE GLASS');
+    if (next.squall && !(prev && prev.squall)) bits.push('NEW: SQUALL LINE');
     if (next.boss) bits.push('THE STORM SHIP');
     if (next.wind > (prev ? prev.wind : 0) + 0.24) bits.push('WIND RISING');
     return bits.length ? bits.join(' · ') : next.note.toUpperCase();

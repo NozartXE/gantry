@@ -36,14 +36,29 @@
     view.screen = 'play';
   }
 
+  function newTrial(trialId) {
+    const seed = 'trial-' + trialId + '-' + (view.save.runs + 1);
+    view.run = globalThis.GT_Trials.begin(trialId, seed);
+    if (!view.run) { view.screen = 'title'; return; }
+    view.recorded = false;
+    view.paused = false;
+    view.screen = 'play';
+  }
+
   function recordIfDone() {
     const run = view.run;
     if (!run || !run.over || view.recorded) return;
     view.recorded = true;
-    globalThis.GT_Save.recordRun({
-      score: run.result.score, grade: run.result.grade, result: run.result.result,
-      ship: run.result.shipsCleared, difficulty: run.result.difficulty,
-    });
+    if (run.trial) {
+      // Trials keep their medal and their feats, but they are not harbour runs: the best
+      // score and the history belong to the nine-ship harbour alone.
+      globalThis.GT_Save.recordTrial(run.trial.id, run.medal);
+    } else {
+      globalThis.GT_Save.recordRun({
+        score: run.result.score, grade: run.result.grade, result: run.result.result,
+        ship: run.result.shipsCleared, difficulty: run.result.difficulty,
+      });
+    }
     run.featsEarned.forEach((id) => globalThis.GT_Save.unlockFeat(id));
     view.save = globalThis.GT_Save.get();
   }
@@ -65,7 +80,7 @@
     let accel = 0;
     if (I.held('ArrowLeft') || I.held('a') || I.held('A')) accel -= 1;
     if (I.held('ArrowRight') || I.held('d') || I.held('D')) accel += 1;
-    return { accel, drop: I.wasPressed(' ') };
+    return { accel, drop: I.wasPressed(' '), tug: I.wasPressed('t') || I.wasPressed('T') };
   }
 
   function updatePlay(dt) {
@@ -108,8 +123,22 @@
     else if (b === 'howto') view.screen = 'howto';
     else if (b === 'options') view.screen = 'options';
     else if (b === 'almanac') view.screen = 'almanac';
+    else if (b === 'trials') view.screen = 'trials';
     else if (b === 'endless') { if (view.save.endlessUnlocked) view.endless = !view.endless; }
     else if (b.indexOf('diff') === 0) view.difficulty = C.DIFFICULTIES[Number(b.slice(4))].id;
+  }
+
+  function handleTrialsInput() {
+    const I = globalThis.GT_Input;
+    if (I.wasPressed('Escape')) { view.screen = 'title'; return; }
+    for (let i = 0; i < C.TRIALS.length; i++) {
+      if (I.wasPressed(String(i + 1)) || view.clickedButton === 'trial' + i) {
+        view.clickedButton = null;
+        newTrial(C.TRIALS[i].id);
+        return;
+      }
+    }
+    view.clickedButton = null;
   }
 
   function handleOptionsClick() {
@@ -132,6 +161,7 @@
     }
     switch (view.screen) {
       case 'title': updateTitle(dt); handleTitleKeys(); break;
+      case 'trials': updateTitle(dt); handleTrialsInput(); break;
       case 'howto': case 'almanac':
         if (I.wasPressed('Escape') || I.mouse.clicked) view.screen = 'title';
         break;
@@ -144,7 +174,11 @@
         else updatePlay(dt);
         break;
       case 'results':
-        if (I.wasPressed('r') || I.wasPressed('R') || view.clickedButton === 'again') { view.clickedButton = null; newRun(); }
+        if (I.wasPressed('r') || I.wasPressed('R') || view.clickedButton === 'again') {
+          view.clickedButton = null;
+          if (view.run && view.run.trial) newTrial(view.run.trial.id);
+          else newRun();
+        }
         else if (I.wasPressed('Escape') || view.clickedButton === 'title') { view.clickedButton = null; view.screen = 'title'; }
         break;
     }
@@ -169,12 +203,13 @@
       const s = view.save.settings.shake;
       ctx.translate(Math.sin(performance.now() * 0.09) * 5 * s * view.shakeT * 4, Math.cos(performance.now() * 0.11) * 4 * s * view.shakeT * 4);
     }
-    if (view.screen === 'title' || view.screen === 'howto' || view.screen === 'options' || view.screen === 'almanac') {
+    if (view.screen === 'title' || view.screen === 'howto' || view.screen === 'options' || view.screen === 'almanac' || view.screen === 'trials') {
       const demo = view.demo || globalThis.GT_TitleDemo.build();
       globalThis.GT_Board.draw(ctx, demo);
       globalThis.GT_CraneView.draw(ctx, demo);
       globalThis.GT_Fx.draw(ctx);
       if (view.screen === 'title') globalThis.GT_Title.draw(ctx, view);
+      else if (view.screen === 'trials') { globalThis.GT_Title.draw(ctx, view); globalThis.GT_Menus.drawTrials(ctx, view); }
       else if (view.screen === 'howto') { globalThis.GT_Title.draw(ctx, view); globalThis.GT_HowTo.draw(ctx, view); }
       else if (view.screen === 'options') { globalThis.GT_Title.draw(ctx, view); globalThis.GT_Menus.drawOptions(ctx, view); }
       else { globalThis.GT_Title.draw(ctx, view); globalThis.GT_Menus.drawAlmanac(ctx, view); }

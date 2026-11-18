@@ -45,6 +45,10 @@
       }
       ctx.stroke();
     }
+    if (run.hazards && run.hazards.squall) { // a squall overhead greys the whole sky down
+      ctx.fillStyle = 'rgba(46,80,110,0.22)';
+      ctx.fillRect(0, 0, 1280, 474);
+    }
   }
 
   function drawQuay(ctx) {
@@ -93,7 +97,8 @@
   function drawShip(ctx, run, opts) {
     const ship = run.ship;
     const o = globalThis.GT_Stack.shipOrigin(ship);
-    const rock = run.hazards ? globalThis.GT_Hazards.rock(run.hazards) : 0;
+    const anchored = !!(run.rigs && run.rigs.includes('anchor'));
+    const rock = run.hazards ? globalThis.GT_Hazards.rock(run.hazards, anchored) : 0;
     ctx.save();
     ctx.translate(640, F.waterY);
     ctx.rotate(rock);
@@ -148,6 +153,28 @@
       const fx = o.x - 40 + i * ((o.w + 80) / 11) + Math.sin(run.elapsed * 2 + i) * 5;
       ctx.fillRect(fx, F.waterY + 16, 26, 4);
     }
+    drawSquall(ctx, run);
+  }
+
+  // The squall line itself: a slate band of driving rain sweeping the field, drawn over the
+  // ship but under the crane — you can see it coming and you can see the hook inside it.
+  function drawSquall(ctx, run) {
+    const hz = run.hazards;
+    if (!hz || !hz.squall) return;
+    const sq = hz.squall;
+    const x0 = sq.x - sq.w / 2, x1 = sq.x + sq.w / 2;
+    ctx.fillStyle = 'rgba(52,84,110,0.20)';
+    ctx.fillRect(x0, 0, sq.w, 724);
+    ctx.fillStyle = 'rgba(52,84,110,0.30)';
+    ctx.fillRect(sq.dir > 0 ? x0 : x1 - 5, 0, 5, 724); // the hard leading edge
+    ctx.strokeStyle = 'rgba(234,251,255,0.55)'; ctx.lineWidth = 2;
+    ctx.beginPath();
+    for (let i = 0; i < 46; i++) {
+      const rx = x0 + ((i * 67 + Math.floor(run.elapsed * 300)) % Math.max(40, sq.w));
+      const ry = ((i * 131 + Math.floor(run.elapsed * 460)) % 700);
+      ctx.moveTo(rx, ry); ctx.lineTo(rx - 7, ry + 26);
+    }
+    ctx.stroke();
   }
 
   function drawScene(ctx, run) {

@@ -20,6 +20,7 @@
       if (held.wild || want === held.colorId) s += 100;
       s -= Math.abs(heights[c] - (run.plan.total / ship.cols)) * 2;      // keep the deck even
       s -= Math.sign(c - (ship.cols - 1) / 2) * list * 30;               // lean against the list
+      if (held.cls === 'heavy') s -= Math.abs(c - (ship.cols - 1) / 2) * 9; // steel belongs midships
       s -= Math.abs(globalThis.GT_Stack.columnCenter(ship, c) - run.crane.x) * 0.02;
       if (s > bestScore) { bestScore = s; bestCol = c; }
     }
@@ -34,8 +35,12 @@
     let accel = (target - crane.x) * 0.03 - crane.v * 0.012;
     accel = Math.max(-1, Math.min(1, accel));
     const settled = Math.abs(crane.angle) < 0.055 && Math.abs(crane.angVel) < 0.3;
+    // Glass rides gentler: the bot waits for a calmer swing before letting go of a fragile
+    // box, the same judgement the crack rule asks of a human hand.
+    const glassSettled = Math.abs(crane.angle) < 0.03 && Math.abs(crane.angVel) < 0.18;
     const aligned = Math.abs(hook.x - target) < 13;
-    const drop = !!crane.held && !crane.falling && settled && aligned;
+    const drop = !!crane.held && !crane.falling && aligned &&
+      (crane.held.cls === 'fragile' ? glassSettled : settled);
     return { accel, drop };
   }
 

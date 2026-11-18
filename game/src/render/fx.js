@@ -20,6 +20,10 @@
       for (let i = 0; i < (ev.n || 10); i++) {
         particles.push({ x: ev.x, y: ev.y, vx: rng.range(-140, 140), vy: rng.range(-190, -30), t: 0, life: rng.range(0.3, 0.55), color: i % 2 ? P.accent : '#FFFFFF', size: rng.range(2, 4), grav: 620 });
       }
+    } else if (ev.type === 'shards') {
+      for (let i = 0; i < (ev.n || 10); i++) {
+        particles.push({ x: ev.x + rng.range(-26, 26), y: ev.y, vx: rng.range(-120, 120), vy: rng.range(-160, -20), t: 0, life: rng.range(0.35, 0.6), color: i % 3 ? '#EAFBFF' : P.sky, size: rng.range(2.5, 5), grav: 760 });
+      }
     } else if (ev.type === 'confetti') {
       for (let i = 0; i < (ev.n || 30); i++) {
         particles.push({ x: ev.x + rng.range(-260, 260), y: ev.y + rng.range(-40, 40), vx: rng.range(-40, 40), vy: rng.range(20, 90), t: 0, life: rng.range(0.8, 1.3), color: C.CARGO_COLORS[i % 5].fill, size: rng.range(4, 7), grav: 60, rect: true });

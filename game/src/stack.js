@@ -29,13 +29,15 @@
   }
 
   // List in [-1, 1]: negative leans left (port), positive right (starboard). Weight is the
-  // stack height of each column, levered by its distance from the centreline.
+  // stack height of each column — heavy steel boxes count double — levered by its distance
+  // from the centreline.
   function listValue(placed, ship) {
     if (!placed.length) return 0;
     const mid = (ship.cols - 1) / 2;
     let moment = 0, weight = 0;
     for (let c = 0; c < ship.cols; c++) {
-      const h = columnHeight(placed, c);
+      let h = 0;
+      for (const p of placed) if (p.col === c) h += p.weight || 1;
       moment += h * (c - mid);
       weight += h;
     }

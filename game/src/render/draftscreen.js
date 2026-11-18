@@ -21,7 +21,7 @@
     return lines;
   }
 
-  const MONOGRAM = { magnet: 'MG', spreader: 'WS', counter: 'CW', winch: 'SW', trolley: 'FT', hull: '+3', grease: 'CG', charts: 'TC', scarer: 'GS', chains: 'HC', paint: 'BP', nets: 'SN' };
+  const MONOGRAM = { magnet: 'MG', spreader: 'WS', counter: 'CW', winch: 'SW', trolley: 'FT', hull: '+3', grease: 'CG', charts: 'TC', scarer: 'GS', chains: 'HC', paint: 'BP', nets: 'SN', ballast: 'BA', manifest: 'CM', priority: 'PT', insure: 'HI', tug: 'HT', spotter: 'SP', reefer: 'RP', anchor: 'SA' };
 
   function draw(ctx, run, view) {
     view.buttons = {};

@@ -80,5 +80,9 @@
     gust() { if (started && ensure()) { const t = ctx.currentTime; tone(140, t, 0.6, 'sawtooth', 0.05, sfxGain, 320); } },
     draft() { if (started && ensure()) { const t = ctx.currentTime; [523, 659, 784].forEach((f, i) => tone(f, t + i * 0.07, 0.18, 'sine', 0.2)); } },
     alarm() { if (started && ensure()) { const t = ctx.currentTime; tone(880, t, 0.12, 'square', 0.12); tone(880, t + 0.18, 0.12, 'square', 0.12); } },
+    order() { if (started && ensure()) { const t = ctx.currentTime; [392, 523, 659].forEach((f, i) => tone(f, t + i * 0.06, 0.16, 'triangle', 0.2)); } },
+    crack() { if (started && ensure()) { const t = ctx.currentTime; tone(1400, t, 0.05, 'square', 0.14); tone(900, t + 0.04, 0.07, 'square', 0.1); tone(500, t + 0.09, 0.1, 'square', 0.07); } },
+    tug() { if (started && ensure()) { const t = ctx.currentTime; tone(196, t, 0.32, 'sine', 0.3); tone(196, t + 0.42, 0.4, 'sine', 0.3); } },
+    insure() { if (started && ensure()) { const t = ctx.currentTime; tone(1046, t, 0.1, 'sine', 0.16); tone(1318, t + 0.07, 0.14, 'sine', 0.14); } },
   };
 })();

@@ -9,6 +9,7 @@
     bestGrade: '',
     history: [],          // [{score, grade, result: 'CLEARED'|'HULL LOST'|'SAILED SHORT', ship, difficulty}]
     feats: {},            // feat id -> true
+    trials: {},           // trial id -> best medal ('BRONZE'|'SILVER'|'GOLD')
     wins: 0,
     runs: 0,
     settings: { music: 0.7, sfx: 0.8, shake: 0.5 },
@@ -39,6 +40,16 @@
     unlockFeat(id) {
       if (!data.feats[id]) { data.feats[id] = true; persist(); return true; }
       return false;
+    },
+    // A finished trial keeps its best medal; a lesser medal never overwrites a better one.
+    recordTrial(id, medal) {
+      if (!medal) return;
+      const rank = { BRONZE: 1, SILVER: 2, GOLD: 3 };
+      if (!data.trials) data.trials = {};
+      if (!data.trials[id] || rank[medal] > rank[data.trials[id]]) {
+        data.trials[id] = medal;
+        persist();
+      }
     },
     setSetting(k, v) { data.settings[k] = v; persist(); },
     // Screenshot staging only: seed a truthful-looking record for the title/results frames.

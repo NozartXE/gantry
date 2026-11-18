@@ -51,6 +51,22 @@
       ctx.beginPath();
       ctx.moveTo(cx - s * 0.16, cy); ctx.lineTo(cx + s * 0.16, cy);
       ctx.stroke();
+    } else if (kind === 'orders') {
+      // the harbourmaster's tag: a clipboard slip with a bold tick and two order lines
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(cx - s * 0.3, cy - s * 0.42, s * 0.6, s * 0.84);
+      ctx.lineWidth = 3; ctx.strokeStyle = P.ink;
+      ctx.strokeRect(cx - s * 0.3, cy - s * 0.42, s * 0.6, s * 0.84);
+      ctx.fillStyle = P.accent;
+      ctx.fillRect(cx - s * 0.14, cy - s * 0.52, s * 0.28, s * 0.18);
+      ctx.strokeStyle = P.ink; ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(cx - s * 0.18, cy - s * 0.02); ctx.lineTo(cx - s * 0.05, cy + s * 0.12); ctx.lineTo(cx + s * 0.19, cy - s * 0.16);
+      ctx.stroke();
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      ctx.moveTo(cx - s * 0.18, cy + s * 0.26); ctx.lineTo(cx + s * 0.18, cy + s * 0.26);
+      ctx.stroke();
     } else if (kind === 'storm') {
       ctx.fillStyle = '#FFFFFF';
       ctx.fillRect(cx - s * 0.4, cy - s * 0.34, s * 0.8, s * 0.3);

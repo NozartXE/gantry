@@ -50,7 +50,7 @@
     ctx.strokeRect(hook.x - 13, hook.y - 8, 26, 14);
     if (crane.held) {
       globalThis.GT_Containers.drawBox(ctx, hook.x, hook.y + 6 + F.boxH / 2, F.boxW, F.boxH,
-        crane.held.colorId, crane.held.serial, crane.held.wild);
+        crane.held.colorId, crane.held.serial, crane.held.wild, crane.held.cls, false);
     }
     // the falling box, with two speed streaks
     if (crane.falling) {
@@ -60,7 +60,7 @@
       ctx.moveTo(b.x - 24, b.y - 60); ctx.lineTo(b.x - 24, b.y - 18);
       ctx.moveTo(b.x + 24, b.y - 72); ctx.lineTo(b.x + 24, b.y - 24);
       ctx.stroke();
-      globalThis.GT_Containers.drawBox(ctx, b.x, b.y + F.boxH / 2, F.boxW, F.boxH, b.colorId, b.serial, b.wild);
+      globalThis.GT_Containers.drawBox(ctx, b.x, b.y + F.boxH / 2, F.boxW, F.boxH, b.colorId, b.serial, b.wild, b.cls, false);
     }
   }
 

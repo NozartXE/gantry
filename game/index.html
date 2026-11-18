@@ -3,8 +3,9 @@
   GANTRY: swing the box, drop it on the plan colour, keep her level — load all 9 ships before
   the hull gives out, and finish with the Typhoon Freighter in a rising storm.
   WIN: load all 9 ships. LOSE: the hull reaches zero (splashes and slides cost 1 each).
-  Scope: 5 cargo colours - 9 ships over 3 shifts - 12 rig cards drafted between ships -
-  3 difficulties - endless NIGHT SHIFT - 6 feats.
+  Scope: 5 cargo colours - 3 cargo classes (plain, heavy steel, fragile glass) - 9 ships over
+  3 shifts - squall lines, gulls and swell - harbour orders on every ship - 20 rig cards
+  drafted between ships - 3 difficulties - endless NIGHT SHIFT - 12 feats - 6 shift trials.
   Tech: fixed 60 Hz seeded sim (plain classic scripts, one GT_* global per file); DOM-free sim
   modules (config..sim) load headless in Node; headless bot tools verify balance and staging.
 -->
@@ -22,14 +23,17 @@
 <script src="./src/config.js"></script>
 <script src="./src/rng.js"></script>
 <script src="./src/cargo.js"></script>
+<script src="./src/specials.js"></script>
 <script src="./src/crane.js"></script>
 <script src="./src/stack.js"></script>
 <script src="./src/hazards.js"></script>
 <script src="./src/ships.js"></script>
 <script src="./src/draft.js"></script>
+<script src="./src/orders.js"></script>
 <script src="./src/save.js"></script>
 <script src="./src/audio.js"></script>
 <script src="./src/input.js"></script>
+<script src="./src/trials.js"></script>
 <script src="./src/sim.js"></script>
 <script src="./src/bot.js"></script>
 <script src="./src/titledemo.js"></script>
