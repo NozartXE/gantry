@@ -1,0 +1,27 @@
+/* GANTRY page shell: the game is the canvas; the page is a dark slate frame that centres it
+   and scales it down on smaller windows without ever cropping it. */
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #10222e;
+  min-height: 100vh;
+}
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+canvas#game {
+  width: min(100vw, 160vh);
+  height: auto;
+  display: block;
+  background: #1b9be0;
+}
+#overlay, #status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

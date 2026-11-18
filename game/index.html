@@ -1,0 +1,53 @@
+<!doctype html>
+<!--
+  GANTRY: swing the box, drop it on the plan colour, keep her level — load all 9 ships before
+  the hull gives out, and finish with the Typhoon Freighter in a rising storm.
+  WIN: load all 9 ships. LOSE: the hull reaches zero (splashes and slides cost 1 each).
+  Scope: 5 cargo colours - 9 ships over 3 shifts - 12 rig cards drafted between ships -
+  3 difficulties - endless NIGHT SHIFT - 6 feats.
+  Tech: fixed 60 Hz seeded sim (plain classic scripts, one GT_* global per file); DOM-free sim
+  modules (config..sim) load headless in Node; headless bot tools verify balance and staging.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GANTRY — a container-crane loading game</title>
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<canvas id="game" width="1280" height="800" aria-label="GANTRY: swing containers from a gantry crane onto each ship's cargo plan, match the colours, keep the ship level and load all nine ships"></canvas>
+<div id="overlay" role="dialog" aria-live="polite"></div>
+<p id="status" role="status" aria-live="polite"></p>
+<script src="./src/config.js"></script>
+<script src="./src/rng.js"></script>
+<script src="./src/cargo.js"></script>
+<script src="./src/crane.js"></script>
+<script src="./src/stack.js"></script>
+<script src="./src/hazards.js"></script>
+<script src="./src/ships.js"></script>
+<script src="./src/draft.js"></script>
+<script src="./src/save.js"></script>
+<script src="./src/audio.js"></script>
+<script src="./src/input.js"></script>
+<script src="./src/sim.js"></script>
+<script src="./src/bot.js"></script>
+<script src="./src/titledemo.js"></script>
+<script src="./src/render/fit.js"></script>
+<script src="./src/render/layout.js"></script>
+<script src="./src/render/containers.js"></script>
+<script src="./src/render/board.js"></script>
+<script src="./src/render/craneview.js"></script>
+<script src="./src/render/fx.js"></script>
+<script src="./src/render/banner.js"></script>
+<script src="./src/render/ruleicons.js"></script>
+<script src="./src/render/hud.js"></script>
+<script src="./src/render/title.js"></script>
+<script src="./src/render/draftscreen.js"></script>
+<script src="./src/render/results.js"></script>
+<script src="./src/render/howto.js"></script>
+<script src="./src/ui/menus.js"></script>
+<script src="./src/testhook.js"></script>
+<script src="./src/main.js"></script>
+</body>
+</html>
